@@ -3,13 +3,13 @@ default: &default
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-# test:
-#   <<: *default
-#   host: "<%= ENV['TEST_DB_HOST'] %>"
-#   database: "<%= ENV['TEST_DB_NAME'] %>"
-#   username: "<%= ENV['TEST_DB_USERNAME'] %>"
-#   password: "<%= ENV['TEST_DB_PASSWORD'] %>"
-#   pool: 1 # to prevent multiple connections being made, unable to see outer open transaction's data.
+test:
+  <<: *default
+  host: "<%= ENV['TEST_DB_HOST'] %>"
+  database: "<%= ENV['TEST_DB_NAME'] %>"
+  username: "<%= ENV['TEST_DB_USERNAME'] %>"
+  password: "<%= ENV['TEST_DB_PASSWORD'] %>"
+  pool: 1 # to prevent multiple connections being made, unable to see outer open transaction's data.
 
 development:
   <<: *default
