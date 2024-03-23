@@ -3,7 +3,7 @@ module JsonWithoutId
 
   included do
     def as_json(options = {})
-      super(options).except('id')
+      super(options).except('id', 'application_id', 'chat_id')
     end
   end
 end
