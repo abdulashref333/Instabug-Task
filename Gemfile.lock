@@ -262,6 +262,10 @@ GEM
     ruby-progressbar (1.13.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
+    sidekiq (6.5.5)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.5.0)
     solargraph (0.50.0)
       backport (~> 1.2)
       benchmark
@@ -335,6 +339,7 @@ DEPENDENCIES
   redis-rails
   rspec-rails (~> 5.1)
   shoulda-matchers (~> 5.1)
+  sidekiq (~> 6.5)
   solargraph
   spring
   sprockets-rails

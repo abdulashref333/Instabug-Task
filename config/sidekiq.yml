@@ -1,0 +1,7 @@
+development:
+  concurrency: 5
+  queues:
+  - instabug_task_development_default
+  - instabug_task_development_chats
+  - instabug_task_development_messages
+
