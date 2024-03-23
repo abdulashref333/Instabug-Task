@@ -25,5 +25,12 @@ module InstabugTask
       g.fixture_replacement :factory_bot, dir: "spec/factories"
     end
 
+    # configure redis cache
+    redis_config = config_for :redis
+    config.cache_store = :redis_store, {
+      host: redis_config["host"],
+      port: redis_config["port"],
+      db: redis_config['db'],
+    }
   end
 end
