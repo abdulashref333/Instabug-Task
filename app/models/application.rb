@@ -14,6 +14,8 @@
 #  index_applications_on_token  (token) UNIQUE
 #
 class Application < ApplicationRecord
+  include JsonWithoutId
+
   # Validations
   validates :token, uniqueness: true
   validates :name, :token, presence: true

@@ -19,6 +19,8 @@
 #  fk_rails_...  (application_id => applications.id)
 #
 class Chat < ApplicationRecord
+  include JsonWithoutId
+
   # Validations
   validates :application_id, presence: true
   validates :number, uniqueness: { scope: :application_id }, presence: true
