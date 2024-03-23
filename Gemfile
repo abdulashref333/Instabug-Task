@@ -61,14 +61,33 @@ group :development do
   # gem "rack-mini-profiler"
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
+  gem "spring"
+
+  # Add a comment summarizing the current schema to the top or bottom of each of your...
+  # ActiveRecord models
+  # Tests and Specs
+  # .........
+  # [https://github.com/ctran/annotate_models]
+  gem "annotate", "~> 3.2"
+
+  # Solargraph provides a comprehensive suite of tools for Ruby programming: intellisense, diagnostics, inline documentation, and type checking
+  gem 'solargraph'
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  # A drop-in alternative to its default testing framework, Minitest. [https://github.com/rspec/rspec-rails]
+  gem "rspec-rails", "~> 5.1"
 
+  # Provides RSpec- and Minitest-compatible one-liners to test common Rails functionality that, if written by hand, would be much longer, more complex, and error-prone [https://github.com/thoughtbot/shoulda-matchers]
+  gem "shoulda-matchers", "~> 5.1"
+end
+
+group :development, :test, :integration do
+  # Generates fake data [https://github.com/ffaker/ffaker]
+  gem "ffaker", "~> 2.21"
+
+  # A fixtures replacement with a straightforward definition syntax [https://github.com/thoughtbot/factory_bot_rails]
+  gem "factory_bot_rails", "~> 6.2"
 end
 
 gem 'dotenv-rails', groups: [:development, :test]
