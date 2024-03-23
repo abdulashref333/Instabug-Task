@@ -27,4 +27,5 @@ class Chat < ApplicationRecord
 
   # Relations
   belongs_to :application, counter_cache: :chats_count
+  has_many :messages
 end

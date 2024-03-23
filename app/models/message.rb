@@ -24,6 +24,7 @@ class Message < ApplicationRecord
   # Validations
   validates :chat_id, presence: true
   validates :number, uniqueness: { scope: :chat_id }, presence: true
+  validates :body, presence: true
 
   # Relations
   belongs_to :chat, counter_cache: :messages_count
