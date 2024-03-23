@@ -14,9 +14,9 @@
 #  index_applications_on_token  (token) UNIQUE
 #
 FactoryBot.define do
-  factory :applicatoin do
-    name { "MyString" }
-    token { "MyString" }
+  factory :application do
+    sequence(:name) { |n| "#{FFaker::Lorem.word} #{n}" }
+    sequence(:token) { |n| "#{FFaker::Lorem.word} #{n}" }
     chats_count { 1 }
   end
 end

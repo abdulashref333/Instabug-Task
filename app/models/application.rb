@@ -16,7 +16,7 @@
 class Application < ApplicationRecord
   # Validations
   validates :token, uniqueness: true
-  validates :name, presence: true
+  validates :name, :token, presence: true
 
   # Relations
   has_many :chats, dependent: :destroy

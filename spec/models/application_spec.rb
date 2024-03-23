@@ -15,6 +15,16 @@
 #
 require 'rails_helper'
 
-RSpec.describe Applicatoin, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe Application, type: :model do
+  before(:all) { Application.destroy_all }
+  subject { build(:application) }
+
+  describe 'validations' do
+    it { should be_valid }
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:token) }
+    it { should validate_uniqueness_of(:token).ignoring_case_sensitivity }
+
+    it { should have_many(:chats) }
+  end
 end
