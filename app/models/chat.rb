@@ -26,6 +26,19 @@ class Chat < ApplicationRecord
   validates :number, uniqueness: { scope: :application_id }, presence: true
 
   # Relations
-  belongs_to :application, counter_cache: :chats_count
+  belongs_to :application
   has_many :messages
+
+  # Callbacks
+  after_commit :update_chats_count, on: :create
+
+  # Methods
+  def self.get_cache_chats_number_key(application_id)
+    "next_chat_number_for_#{application_id}"
+  end
+
+  private
+  def update_chats_count
+    application.increment!(:chats_count)
+  end
 end

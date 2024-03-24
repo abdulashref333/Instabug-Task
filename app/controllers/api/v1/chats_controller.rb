@@ -10,7 +10,7 @@ module Api
         if @application
           application_id = @application.id
           next_chat_number = generate_next_chat_number(application_id)
-          Chat::ChatCreatoinWorkerJob.perform_async(application_id, next_chat_number)
+          Chat::ChatCreatoinWorkerJob.perform_async(@cache_key, application_id, next_chat_number)
 
           render json: { number: next_chat_number }, status: :created
         else
@@ -41,13 +41,8 @@ module Api
 
       private
       def generate_next_chat_number(application_id)
-        current_chat_number = REDIS.get("next_chat_number_for_#{application_id}").to_i
-        
-        if current_chat_number.zero?
-          REDIS.set("next_chat_number_for_#{application_id}", 1)
-        else
-          REDIS.incr("next_chat_number_for_#{application_id}")
-        end
+        @cache_key = Chat.get_cache_chats_number_key(application_id)
+        REDIS.incr(@cache_key)
       end
     end
   end
