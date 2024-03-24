@@ -1,0 +1,13 @@
+# Git Completion
+source /usr/share/bash-completion/completions/git
+
+# GPG
+export GPG_TTY=$(tty)
+
+# Display the current git branch
+function parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+# Enable Bash Coloring
+PS1="\[\033[01;32m\]\u:\[\033[01;34m\]\W\[\033[31m\]\$(parse_git_branch)\[\033[01;34m\]$\[\033[00m\] "
