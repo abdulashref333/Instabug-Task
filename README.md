@@ -65,3 +65,18 @@ You can now visit `http://localhost:3000/`
 | PATCH  | /applications/:token/chats/:number/messages/:message_number  | Update message data(body)                  | {"body": "test message body #3"} |
 
 * Example of a full endpoint: `POST: http://localhost:3000/api/v1/applications`
+
+## Specs
+
+1. Create Applications each with a unique token
+2. Upadate Applications
+3. Retrieve Application by token
+4. Create Chats entities for each application each with a unique number(started from 1,2,3,...)
+5. List Chats that are in each application
+6. Get specific chat in application by the application token & and chat number
+7. Create messages for each chat in application
+8. Update message
+9. List messages in each chat
+10. Search in messages which in a specific chat
+11. No Id's are returned back for any of the three entities(Application, Chat, Message)
+12. Specs file for each Model, Job, Controller.
