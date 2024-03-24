@@ -4,4 +4,5 @@ development:
   - instabug_task_development_default
   - instabug_task_development_chats
   - instabug_task_development_messages
+  - instabug_task_development_elasticsearch
 
