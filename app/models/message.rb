@@ -20,6 +20,7 @@
 #
 class Message < ApplicationRecord
   include JsonWithoutId
+  include Searchable
 
   # Validations
   validates :chat_id, presence: true
@@ -28,4 +29,38 @@ class Message < ApplicationRecord
 
   # Relations
   belongs_to :chat, counter_cache: :messages_count
+
+  # Callbacks
+  after_commit :schedule_indexing, on: :create
+  after_commit :schedule_reindexing, on: :update
+
+  def self.search(query, chat_id)
+    __elasticsearch__.search(
+      {
+        query: {
+          bool: {
+            must: [
+              { term: { chat_id: chat_id } },
+              { match: { body: { query: query, operator: "and" } } }
+            ]
+          }
+        }
+      }
+    )
+  end
+
+  def as_indexed_json(options = {})
+    self.as_json(only: [:body, :chat_id])
+  end
+  private
+
+  def schedule_indexing
+    Search::MesseageIndexerJob.perform_async(:index, id)
+  end
+
+  def schedule_reindexing
+    Search::MesseageIndexerJob.perform_async(:update, id)
+  end
+
+  
 end

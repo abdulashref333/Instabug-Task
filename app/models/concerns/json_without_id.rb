@@ -3,7 +3,9 @@ module JsonWithoutId
 
   included do
     def as_json(options = {})
-      super(options).except('id', 'application_id', 'chat_id')
+      return super(options).except('id', 'application_id', 'chat_id') if options[:prefixes]
+
+      super(options)
     end
   end
 end

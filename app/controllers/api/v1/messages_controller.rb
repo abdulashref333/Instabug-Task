@@ -50,6 +50,16 @@ module Api
         end
       end
 
+      def search
+        begin
+          chat_id, _, _ = validate_application_and_chat
+          query = params[:query]
+          response = Message.search(query, chat_id)
+          render json: response.map { |message| message._source.except("chat_id") }
+        rescue => e
+          render json: { error: e }, status: :not_found
+        end
+      end
       private
       def generate_next_message_number(application_id, chat_number)
         current_chat_number = REDIS.get("next_message_number_for_#{application_id}_and_#{chat_number}").to_i
