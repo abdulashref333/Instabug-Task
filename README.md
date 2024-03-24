@@ -80,3 +80,7 @@ You can now visit `http://localhost:3000/`
 10. Search in messages which in a specific chat
 11. No Id's are returned back for any of the three entities(Application, Chat, Message)
 12. Specs file for each Model, Job, Controller.
+
+## TO-DO
+
+1. Add ovvercommit gem
