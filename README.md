@@ -48,20 +48,20 @@ You can now visit `http://localhost:3000/`
 
 * **root path**: /api/v1
 
-| Method | Endpoint                                                     | Description                                |
-|--------|--------------------------------------------------------------|--------------------------------------------|
-| POST   | /applications                                                | Create new application                     |
-| GET    | /applications/:token                                         | Get application data                       |
-| PATCH  | /applications/:token                                         | Update application name                    |
-|--------|--------------------------------------------------------------|--------------------------------------------|
-| POST   | /applications/:token/chats                                   | Create new chat                            |
-| GET    | /applications/:token/chats                                   | Get List of chats for specific application |
-| GET    | /applications/:token/chats/:number                           | Get chat data                              |
-|--------|--------------------------------------------------------------|--------------------------------------------|
-| POST   | /applications/:token/chats/:number/messages                  | Add new message to specific chat           |
-| GET    | /applications/:token/chats/:number/messages                  | Get List of messages for specific chat     |
-| GET    | /applications/:token/chats/:number/messages/search           | Search in chat message                     |
-| GET    | /applications/:token/chats/:number/messages/:message_number  | Get message data                           |
-| PATCH  | /applications/:token/chats/:number/messages/:message_number  | Update message data(body)                  |
+| Method | Endpoint                                                     | Description                                | Request Body                     |
+|--------|--------------------------------------------------------------|--------------------------------------------|----------------------------------|
+| POST   | /applications                                                | Create new application                     | {"name": "application #1"}       |
+| GET    | /applications/:token                                         | Get application data                       |                                  |
+| PATCH  | /applications/:token                                         | Update application name                    | {"name": "application #2"}       |
+|--------|--------------------------------------------------------------|--------------------------------------------|----------------------------------|
+| POST   | /applications/:token/chats                                   | Create new chat                            | {}                               |
+| GET    | /applications/:token/chats                                   | Get List of chats for specific application |                                  |
+| GET    | /applications/:token/chats/:number                           | Get chat data                              |                                  |
+|--------|--------------------------------------------------------------|--------------------------------------------|----------------------------------|
+| POST   | /applications/:token/chats/:number/messages                  | Add new message to specific chat           | {"body": "test message body #2"} |
+| GET    | /applications/:token/chats/:number/messages                  | Get List of messages for specific chat     |                                  |
+| GET    | /applications/:token/chats/:number/messages/search           | Search in chat message                     |                                  |
+| GET    | /applications/:token/chats/:number/messages/:message_number  | Get message data                           |                                  |
+| PATCH  | /applications/:token/chats/:number/messages/:message_number  | Update message data(body)                  | {"body": "test message body #3"} |
 
 * Example of a full endpoint: `POST: http://localhost:3000/api/v1/applications`
