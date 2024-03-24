@@ -53,11 +53,11 @@ You can now visit `http://localhost:3000/`
 | POST   | /applications                                                | Create new application                     | {"name": "application #1"}       |
 | GET    | /applications/:token                                         | Get application data                       |                                  |
 | PATCH  | /applications/:token                                         | Update application name                    | {"name": "application #2"}       |
-|--------|--------------------------------------------------------------|--------------------------------------------|----------------------------------|
+|--------|                                                              |                                            |                                  |
 | POST   | /applications/:token/chats                                   | Create new chat                            | {}                               |
 | GET    | /applications/:token/chats                                   | Get List of chats for specific application |                                  |
 | GET    | /applications/:token/chats/:number                           | Get chat data                              |                                  |
-|--------|--------------------------------------------------------------|--------------------------------------------|----------------------------------|
+|--------|                                                              |                                            |                                  |
 | POST   | /applications/:token/chats/:number/messages                  | Add new message to specific chat           | {"body": "test message body #2"} |
 | GET    | /applications/:token/chats/:number/messages                  | Get List of messages for specific chat     |                                  |
 | GET    | /applications/:token/chats/:number/messages/search           | Search in chat message                     |                                  |
