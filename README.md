@@ -44,6 +44,8 @@ This project is just a showcase for a chat system that is intended to work as a 
 
 You can now visit `http://localhost:3000/`
 
+9. To open sidekiq dashboard `http://127.0.0.1:3000/sidekiq`
+
 ## API-Endpoints
 
 * **root path**: /api/v1
