@@ -28,9 +28,10 @@ class Message < ApplicationRecord
   validates :body, presence: true
 
   # Relations
-  belongs_to :chat, counter_cache: :messages_count
+  belongs_to :chat
 
   # Callbacks
+  after_commit :update_messages_count, on: :create
   after_commit :schedule_indexing, on: :create
   after_commit :schedule_reindexing, on: :update
 
@@ -52,6 +53,11 @@ class Message < ApplicationRecord
   def as_indexed_json(options = {})
     self.as_json(only: [:body, :chat_id])
   end
+
+  def self.get_chach_messages_number_key(application_id, chat_id)
+    "next_message_number_for_#{application_id}_and_#{chat_id}"
+  end
+
   private
 
   def schedule_indexing
@@ -62,5 +68,7 @@ class Message < ApplicationRecord
     Search::MesseageIndexerJob.perform_async(:update, id)
   end
 
-  
+  def update_messages_count
+    chat.increment!(:messages_count)
+  end
 end

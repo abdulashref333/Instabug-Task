@@ -5,18 +5,19 @@ module Api
 
       def create
         begin
-          chat_id, application_id, chat_number = validate_application_and_chat
-          next_chat_number = generate_next_message_number(application_id, chat_number)
-          Message::MessageCreatoinWorkerJob.perform_async(chat_id, next_chat_number, message_params[:body])
-          render json: { number: next_chat_number }, status: :created
+          chat_id, application_id = validate_application_and_chat
+          next_message_number = generate_next_message_number(application_id, chat_id)
+          Message::MessageCreatoinWorkerJob.perform_async(@cache_key, chat_id, next_message_number, message_params[:body])
+          render json: { number: next_message_number }, status: :created
         rescue => e
+          REDIS.decr(@cache_key) if @cache_key
           render json: { error: e }, status: :not_found
         end
       end
 
       def update
         begin
-          chat_id, application_id, chat_number = validate_application_and_chat
+          chat_id, application_id = validate_application_and_chat
           message = Message.where(chat_id:, number: params[:message_number]).first
           return render json: { error: 'Message not found' }, status: :not_found unless message
 
@@ -29,7 +30,7 @@ module Api
 
       def show
         begin
-          chat_id, _, _ = validate_application_and_chat
+          chat_id, _ = validate_application_and_chat
           message = Message.where(chat_id:, number: params[:message_number]).first
           return render json: { error: 'Message not found' }, status: :not_found unless message
 
@@ -42,7 +43,7 @@ module Api
 
       def index
         begin
-          chat_id, _, _ = validate_application_and_chat
+          chat_id, _ = validate_application_and_chat
           messages = Message.where(chat_id: chat_id).order(number: :asc)
           render json: messages
         rescue => e
@@ -52,7 +53,7 @@ module Api
 
       def search
         begin
-          chat_id, _, _ = validate_application_and_chat
+          chat_id, _ = validate_application_and_chat
           query = params[:query]
           response = Message.search(query, chat_id)
           render json: response.map { |message| message._source.except("chat_id") }
@@ -61,15 +62,9 @@ module Api
         end
       end
       private
-      def generate_next_message_number(application_id, chat_number)
-        current_chat_number = REDIS.get("next_message_number_for_#{application_id}_and_#{chat_number}").to_i
-        
-        if current_chat_number.zero?
-          REDIS.set("next_message_number_for_#{application_id}_and_#{chat_number}", 1)
-          return 1
-        else
-          REDIS.incr("next_message_number_for_#{application_id}_and_#{chat_number}")
-        end
+      def generate_next_message_number(application_id, chat_id)
+        @cache_key = Message.get_chach_messages_number_key(application_id, chat_id)
+        REDIS.incr(@cache_key)
       end
 
       def message_params
@@ -80,12 +75,10 @@ module Api
         application_id = Application.where(token: params[:token]).select(:id)&.first&.id
         raise 'Application not found' unless application_id
         
-        chat = Chat.where(number: params[:number], application_id:).select(:id, :number)&.first
-        raise 'Chat not found' unless chat
+        chat_id = Chat.where(number: params[:number], application_id:).select(:id)&.first.id
+        raise 'Chat not found' unless chat_id
 
-        chat_id = chat.id
-        chat_number = chat.number
-        [chat_id, application_id, chat_number]
+        [chat_id, application_id]
       end
     end
   end
