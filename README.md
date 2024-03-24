@@ -37,7 +37,7 @@ This project is just a showcase for a chat system that is intended to work as a 
 7. Create project docker network
 
     ```bash
-    docker network create ebooster_private_network
+    docker network create instabug_task_private_network
     ```
 
 8. Run `docker compose up`
