@@ -21,5 +21,26 @@
 require 'rails_helper'
 
 RSpec.describe Message, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before(:all) { Message.destroy_all }
+  before(:all) do
+    Message.skip_callback(:commit, :after, :schedule_indexing)
+    Message.skip_callback(:commit, :after, :schedule_reindexing)
+  end
+
+  after(:all) do
+      Message.set_callback(:commit, :after, :schedule_indexing)
+      Message.set_callback(:commit, :after, :schedule_reindexing)
+  end
+
+  subject { create(:message) }
+
+  describe 'validations' do
+    it { should be_valid }
+    it { should validate_presence_of(:number) }
+    it { should validate_uniqueness_of(:number).ignoring_case_sensitivity.scoped_to(:chat_id) }
+  end
+
+  describe 'associations' do
+    it { should belong_to(:chat) }
+  end
 end

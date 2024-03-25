@@ -20,8 +20,9 @@
 #
 FactoryBot.define do
   factory :message do
-    number { 1 }
-    chat { nil }
-    body { "MyString" }
+    number { (1..10).to_a.sample }
+    body { |n| "#{FFaker::Lorem.word} #{n}" }
+
+    association :chat, factory: :chat
   end
 end
