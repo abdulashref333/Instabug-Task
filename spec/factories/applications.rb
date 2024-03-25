@@ -16,7 +16,7 @@
 FactoryBot.define do
   factory :application do
     sequence(:name) { |n| "#{FFaker::Lorem.word} #{n}" }
-    sequence(:token) { |n| "#{FFaker::Lorem.word} #{n}" }
+    sequence(:token) { SecureRandom.uuid }
     chats_count { 1 }
   end
 end

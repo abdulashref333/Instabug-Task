@@ -2,6 +2,7 @@ module Api
  module V1
     class ApplicationsController < ApplicationController
       skip_before_action :verify_authenticity_token
+
       # POST /api/v1/applications
       def create
         @application = Application.new(application_params)
@@ -11,6 +12,8 @@ module Api
         else
           render json: @application.errors, status: :unprocessable_entity
         end
+      rescue ActionController::ParameterMissing => e
+        render json: { error: e.message }, status: :bad_request
       end
 
       # GET /api/v1/applications/:token
@@ -21,6 +24,8 @@ module Api
         else
           render json: { error: 'Application not found' }, status: :not_found
         end
+      rescue ActionController::ParameterMissing => e
+        render json: { error: e.message }, status: :bad_request
       end
 
       def update
@@ -34,6 +39,8 @@ module Api
         else
           render json: { error: 'Application not found' }, status: :not_found
         end
+      rescue ActionController::ParameterMissing => e
+        render json: { error: e.message }, status: :bad_request
       end
 
       private
