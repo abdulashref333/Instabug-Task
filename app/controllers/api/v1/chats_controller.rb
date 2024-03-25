@@ -19,11 +19,12 @@ module Api
       end
 
       def show
-        @application = Application.find_by(token: params[:token])
-        @chat = @application.chats.find_by(number: params[:number])
-
-        if @chat
-          render json: @chat
+        application = Application.find_by(token: params[:token])
+        return render json: { error: 'Application not found' }, status: :not_found unless application
+        
+        chat = application.chats.find_by(number: params[:number])
+        if chat
+          render json: chat
         else
           render json: { error: 'Chat not found' }, status: :not_found
         end
