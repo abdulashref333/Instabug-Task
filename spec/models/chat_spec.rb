@@ -21,5 +21,17 @@
 require 'rails_helper'
 
 RSpec.describe Chat, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before(:all) { Chat.destroy_all }
+  subject { create(:chat) }
+
+  describe 'validations' do
+    it { should be_valid }
+    it { should validate_presence_of(:number) }
+    it { should validate_uniqueness_of(:number).ignoring_case_sensitivity.scoped_to(:application_id) }
+  end
+
+  describe 'associations' do
+    it { should belong_to(:application) }
+    it { should have_many(:messages) }
+ end
 end

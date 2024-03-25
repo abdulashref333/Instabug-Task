@@ -1,0 +1,4 @@
+FactoryBot.build :chat
+FactoryBot.create :chat
+FactoryBot.build :chat
+exit

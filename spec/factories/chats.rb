@@ -20,8 +20,9 @@
 #
 FactoryBot.define do
   factory :chat do
-    number { 1 }
-    application { nil }
+    number { (1..10).to_a.sample }
     messages_count { 1 }
+
+    association :application, factory: :application
   end
 end
