@@ -20,6 +20,7 @@ RSpec.describe "Api::V1::ApplicationsController", type: :request do
         post "/api/v1/applications", params: invalid_params
         expect(response).to have_http_status(400)
         expect(JSON.parse(response.body)).to have_key("error")
+        expect(JSON.parse(response.body)["error"]).to include(I18n.t('controllers.errors.parameter_missing', model: "Application", param: "name"))
       end
     end
   end
@@ -45,6 +46,7 @@ RSpec.describe "Api::V1::ApplicationsController", type: :request do
 
         expect(response).to have_http_status(404)
         expect(JSON.parse(response.body)).to have_key("error")
+        expect(JSON.parse(response.body)["error"]).to include(I18n.t('controllers.errors.not_found', model: 'Application'))
       end
     end
   end

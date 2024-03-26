@@ -13,7 +13,7 @@ module Api
           render json: @application.errors, status: :unprocessable_entity
         end
       rescue ActionController::ParameterMissing => e
-        render json: { error: e.message }, status: :bad_request
+        render json: { error: I18n.t('controllers.errors.parameter_missing', model: "Application", param: "name") }, status: :bad_request
       end
 
       # GET /api/v1/applications/:token
@@ -22,10 +22,10 @@ module Api
         if @application
           render json: @application
         else
-          render json: { error: 'Application not found' }, status: :not_found
+          render json: { error: I18n.t('controllers.errors.not_found', model: 'Application') }, status: :not_found
         end
       rescue ActionController::ParameterMissing => e
-        render json: { error: e.message }, status: :bad_request
+        render json: { error: I18n.t("controllers.errors.parameter_missing", model: "Application", param: "name") }, status: :bad_request
       end
 
       def update
@@ -37,7 +37,7 @@ module Api
             render json: @application.errors, status: :unprocessable_entity
           end
         else
-          render json: { error: 'Application not found' }, status: :not_found
+          render json: { error: I18n.t('controllers.errors.not_found', model: 'Application') }, status: :not_found
         end
       rescue ActionController::ParameterMissing => e
         render json: { error: e.message }, status: :bad_request
