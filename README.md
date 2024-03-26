@@ -46,6 +46,12 @@ You can now visit `http://localhost:3000/`
 
 9. To open sidekiq dashboard `http://127.0.0.1:3000/sidekiq`
 
+10. To run the test specs 
+```bash
+    1. docker exec -it instabug_task bash # this will open a bash session inside the container
+    2. rspec # this will run the specs files.
+```
+
 ## API-Endpoints
 
 * **root path**: /api/v1
